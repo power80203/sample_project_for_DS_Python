@@ -1,17 +1,16 @@
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-
-import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
+import scipy as sp
 import seaborn as sns
+import os
 import random
 
-def pie_chart(dataset,var_aim, topf = None, controlplotshow=True, file_location = False):
-    dataset[var_aim].value_counts()[:topf].plot(kind='pie',autopct='%.2f%%', title="%s樣本分布情形"%var_aim)
-    plt.axis('equal')
+
+def box_plot(dataset,var_x,var_y,topf=None, controlplotshow=True, file_location = False):
+    df_new = dataset.groupby(by=var_x)[var_y].mean()
+    ax = sns.boxplot(x=var_x,y=var_y,data=dataset,order=df_new.sort_values(ascending = True)[:topf].index)
+    plt.xticks(rotation=45)
     if file_location:
         plt.savefig(file_location, bbox_inches = 'tight', pad_inches = 0.5)
     if controlplotshow:
@@ -29,5 +28,5 @@ if __name__ == "__main__":
         lable.append(random.choice(label_list))
     df = pd.DataFrame({'speed': speed,'lifespan': lifespan, 'lable' : lable})
     #test function
-    pie_chart(df, "lable")
+    box_plot(df, "lable", "speed")
     pass
