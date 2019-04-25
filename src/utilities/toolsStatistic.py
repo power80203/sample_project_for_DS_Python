@@ -28,6 +28,5 @@ if __name__ == "__main__":
         lable.append(random.choice(label_list))
     df = pd.DataFrame({'speed': speed,'lifespan': lifespan, 'lable' : lable})
     #test function
-    statistic = Statistic()
-    print(statistic.computing_CV(df, 'speed'))
+    print(Statistic.computing_CV(df, 'speed'))
     pass
