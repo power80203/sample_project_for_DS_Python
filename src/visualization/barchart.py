@@ -5,9 +5,13 @@ import matplotlib.pyplot as plt
 import scipy as sp
 import seaborn as sns
 import os
+import sys
+import datetime
+sys.path.append(os.path.abspath(".."))
+import config
 
 
-def barchart(dataset, var_x, var_y, topf=None, controlplotshow=True, filelocation = False):
+def barchart(dataset, var_x, var_y, topf=None, controlplotshow=True, filelocation = True):
     """
     description:
     -------------------------------------
@@ -31,13 +35,14 @@ def barchart(dataset, var_x, var_y, topf=None, controlplotshow=True, filelocatio
     for counter, value in enumerate(df_new.sort_values(ascending= True)[:topf]):
         plt.text(counter,value, s="%.2f"%value,ha='center', va= 'bottom',fontsize=10)
     if filelocation:
-        plt.savefig(filelocation, bbox_inches = 'tight', pad_inches = 0.5)
+        plt.savefig("{}/{}_and_{}_bar_chart_created_time_{}.jpg".format(config.barchart_path, var_x, var_y, datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")), 
+                    bbox_inches = 'tight', pad_inches = 0.5)
     if controlplotshow:
         plt.show()
     else:
         plt.close()
 
-def barchart_onevar(dataset, var_x, y_title, filter = False, controlplotshow=True, filelocation = False):
+def barchart_onevar(dataset, var_x, y_title, filter = False, controlplotshow=True, filelocation = True):
     """
     description:
     -------------------------------------
@@ -61,7 +66,8 @@ def barchart_onevar(dataset, var_x, y_title, filter = False, controlplotshow=Tru
     plt.xlabel(var_x)
     plt.ylabel(y_title)
     if filelocation:
-        plt.savefig(filelocation, bbox_inches = 'tight', pad_inches = 0.5)
+        plt.savefig("{}/{}_bar_chart_created_time_{}.jpg".format(config.barchart_path, var_x, datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")), 
+                    bbox_inches = 'tight', pad_inches = 0.5)
     if controlplotshow:
         plt.show()
     else:
@@ -69,12 +75,13 @@ def barchart_onevar(dataset, var_x, y_title, filter = False, controlplotshow=Tru
 
     
 
-def histchart_for_continuous(dataset, var_x, y_title , controlplotshow=True, filelocation = False):
+def histchart_for_continuous(dataset, var_x, y_title , controlplotshow=True, filelocation = True):
     dataset[var_x].plot.hist(title='the distribution of %s'%(var_x))
     plt.xlabel(var_x)
     plt.ylabel(y_title)
     if filelocation:
-        plt.savefig( filelocation, bbox_inches = 'tight', pad_inches = 0.5)
+        plt.savefig("{}/{}_hist_chart_created_time_{}.jpg".format(config.barchart_path, var_x, datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")), 
+                    bbox_inches = 'tight', pad_inches = 0.5)
     if controlplotshow:
         plt.show()
     else:
@@ -91,7 +98,7 @@ if __name__ == "__main__":
         lable.append(random.choice(label_list))
     df = pd.DataFrame({'speed': speed,'lifespan': lifespan, 'lable' : lable})
     #test function
-    barchart(df,var_x = 'lable', var_y= 'speed', controlplotshow= False)
-    barchart_onevar(df, "speed", "value",filter= "speed > 5" , controlplotshow= False)
-    histchart_for_continuous(df, 'speed', 'value')
+    barchart(df,var_x = 'lable', var_y= 'speed', controlplotshow= False, filelocation= True)
+    barchart_onevar(df, "speed", "value",filter= "speed > 5" , controlplotshow= False , filelocation= True)
+    histchart_for_continuous(df, 'speed', 'value', controlplotshow= False, filelocation= True)
     pass

@@ -1,13 +1,18 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 import random
+import os
+import sys
+import datetime
+sys.path.append(os.path.abspath(".."))
+import config
 
-def scatterplot(dataset,var_x,var_y, controlplotshow=True, filelocation = False):
-    dataset.plot.scatter(x= var_x, y= var_y,title='%s與%s成績關聯性'%(var_x,var_y))
+def scatterplot(dataset,var_x,var_y, controlplotshow=True, filelocation = True):
+    dataset.plot.scatter(x= var_x, y= var_y,title='the relationship between {}and {}'.format(var_x,var_y))
     if filelocation:
-        plt.savefig(filelocation, bbox_inches = 'tight', pad_inches = 0.5)
+        plt.savefig("{}/the_relationship_between{}_and_{}_scatterchart_created_time_{}.jpg".format(config.scatterchart_path, var_x, var_y, datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")), 
+                    bbox_inches = 'tight', pad_inches = 0.5)
 
     if controlplotshow:
         plt.show()

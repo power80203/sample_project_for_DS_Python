@@ -8,12 +8,17 @@ import matplotlib.pyplot as plt
 import sys
 import seaborn as sns
 import random
+import sys
+import datetime
+sys.path.append(os.path.abspath(".."))
+import config
 
-def pie_chart(dataset,var_aim, topf = None, controlplotshow=True, file_location = False):
+def pie_chart(dataset,var_aim, topf = None, controlplotshow=True, file_location = True):
     dataset[var_aim].value_counts()[:topf].plot(kind='pie',autopct='%.2f%%', title="%s樣本分布情形"%var_aim)
     plt.axis('equal')
     if file_location:
-        plt.savefig(file_location, bbox_inches = 'tight', pad_inches = 0.5)
+        plt.savefig("{}/{}_pie_chart_created_time_{}.jpg".format(config.piechart_path, var_aim, datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")), 
+                    bbox_inches = 'tight', pad_inches = 0.5)
     if controlplotshow:
         plt.show()
     else:
