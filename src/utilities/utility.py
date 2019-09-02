@@ -34,7 +34,21 @@ def create_logger(name, log_file, level=logging.INFO):
 
     return logger
 
+def countmissingrate(df):
+    """
+    description: check the missing rate of each column in dataframe
+    -------------------------------------
+    param:
+    df : the dataframe what we want to check
+    -------------------------------------
+    return: original dataframe with new column missing info.
 
+    """
+    total_missing = df.isnull().sum().sort_values(ascending=False)
+    missing_percent = (df.isnull().sum() / df.isnull().count()).sort_values(ascending=False)
+    missing_data = pd.concat([total_missing, missing_percent], axis = 1, keys = ['Total Missing', 'Missing Percent'])
+
+    return missing_data
 
 
 
